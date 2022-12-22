@@ -1,0 +1,738 @@
+{
+    "title": "358878080305151",
+    "configuration": {
+      "widgets": {
+        "c5ac22f0-aa12-a503-60e2-20d7c2570abb": {
+          "isSystemType": true,
+          "bundleAlias": "charts",
+          "typeAlias": "basic_timeseries",
+          "type": "timeseries",
+          "title": "New widget",
+          "sizeX": 11,
+          "sizeY": 7,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "dataKeys": [
+                  {
+                    "name": "AC",
+                    "type": "timeseries",
+                    "label": "AC",
+                    "color": "#4caf50",
+                    "settings": {
+                      "showLines": true,
+                      "fillLines": false,
+                      "showPoints": true,
+                      "showSeparateAxis": false,
+                      "axisTickDecimals": 0,
+                      "axisPosition": "left"
+                    },
+                    "_hash": 0.43581667429284665
+                  },
+                  {
+                    "name": "BAT",
+                    "type": "timeseries",
+                    "label": "BAT",
+                    "color": "#0c05fd",
+                    "settings": {
+                      "showLines": true,
+                      "fillLines": false,
+                      "showPoints": true,
+                      "showSeparateAxis": false,
+                      "axisTickDecimals": 0,
+                      "axisPosition": "left"
+                    },
+                    "_hash": 0.3890390996210653
+                  }
+                ],
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269"
+              }
+            ],
+            "timewindow": {
+              "history": {
+                "interval": 300000,
+                "timewindowMs": 3600000
+              },
+              "aggregation": {
+                "type": "NONE",
+                "limit": 497
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "",
+            "settings": {
+              "shadowSize": 4,
+              "fontColor": "#545454",
+              "fontSize": 10,
+              "xaxis": {
+                "showLabels": true,
+                "color": "#545454"
+              },
+              "yaxis": {
+                "showLabels": true,
+                "color": "#545454"
+              },
+              "grid": {
+                "color": "#545454",
+                "tickColor": "#DDDDDD",
+                "verticalLines": true,
+                "horizontalLines": true,
+                "outlineWidth": 1
+              },
+              "stack": false,
+              "tooltipIndividual": false
+            },
+            "title": "BAT & AC",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "titleStyle": {
+              "fontSize": "20px",
+              "fontWeight": "bold",
+              "opacity": "0.87"
+            },
+            "mobileHeight": null,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "useDashboardTimewindow": false,
+            "showLegend": true,
+            "actions": {},
+            "legendConfig": {
+              "position": "bottom",
+              "showMin": true,
+              "showMax": true,
+              "showAvg": true,
+              "showTotal": false
+            },
+            "margin": "10px"
+          },
+          "id": "c5ac22f0-aa12-a503-60e2-20d7c2570abb"
+        },
+        "3159cbd8-d321-84bf-99e1-30d7ad74d895": {
+          "isSystemType": true,
+          "bundleAlias": "cards",
+          "typeAlias": "timeseries_table",
+          "type": "timeseries",
+          "title": "Timeseries table",
+          "sizeX": 9,
+          "sizeY": 7,
+          "row": 0,
+          "col": 2,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+                "dataKeys": [
+                  {
+                    "name": "AC",
+                    "label": "AC",
+                    "type": "timeseries",
+                    "color": "#2196f3",
+                    "settings": {
+                      "useCellStyleFunction": false,
+                      "cellStyleFunction": "\nif (value) {\n    var r_var = parseInt(value);\n    var percent = (r_var + 60)/120 * 100;\n    var color = tinycolor.mix('blue', 'red', amount = percent);\n    color.setAlpha(.5);\n    return {\n      paddingLeft: '20px',\n      fontSize: '18px'\n    };\n} else {\n    return {\n      paddingLeft: '20px',\n      fontSize: '18px'\n    };\n}",
+                      "useCellContentFunction": true,
+                      "cellContentFunction": "var ret = \"OFF\";\nif((value == \"1\")||(value == 1)){\n    ret = \"ON\";\n}\n\nreturn ret;"
+                    },
+                    "_hash": 0.013218481303590712
+                  },
+                  {
+                    "name": "RELAY",
+                    "type": "timeseries",
+                    "label": "RELAY",
+                    "color": "#4caf50",
+                    "settings": {
+                      "useCellStyleFunction": false,
+                      "useCellContentFunction": true,
+                      "cellContentFunction": "var ret = \"OFF\";\nif((value == \"1\")||(value == 1)){\n    ret = \"ON\";\n}\n\nreturn ret;"
+                    },
+                    "_hash": 0.02996701952189107
+                  }
+                ]
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "interval": 300000,
+                "timewindowMs": 3600000
+              },
+              "aggregation": {
+                "type": "NONE",
+                "limit": 200
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "8px",
+            "settings": {
+              "showTimestamp": true,
+              "displayPagination": true,
+              "defaultPageSize": 5
+            },
+            "title": "Timeseries table",
+            "dropShadow": true,
+            "enableFullscreen": true,
+            "titleStyle": {
+              "fontSize": "16px",
+              "fontWeight": 400
+            },
+            "useDashboardTimewindow": false,
+            "showLegend": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "actions": {},
+            "margin": "10px",
+            "legendConfig": {
+              "position": "bottom",
+              "showMin": false,
+              "showMax": false,
+              "showAvg": true,
+              "showTotal": false
+            }
+          },
+          "id": "3159cbd8-d321-84bf-99e1-30d7ad74d895"
+        },
+        "3046af9e-c512-9eb6-5c82-6b7034d1b195": {
+          "isSystemType": false,
+          "bundleAlias": "test2",
+          "typeAlias": "ac_line_widgets",
+          "type": "latest",
+          "title": "AC Line Widgets",
+          "sizeX": 3,
+          "sizeY": 3,
+          "row": 0,
+          "col": 1,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+                "dataKeys": [
+                  {
+                    "name": "AC",
+                    "type": "timeseries",
+                    "label": "AC",
+                    "color": "#2196f3",
+                    "settings": {
+                      "logEnable": false
+                    },
+                    "_hash": 0.43700140160686884
+                  }
+                ]
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "4px",
+            "settings": {
+              "labelPosition": "left",
+              "lowLimit": -50,
+              "highLimit": 10,
+              "lowLimitEnable": false,
+              "highLimitEnable": false,
+              "attributeScope": "Server"
+            },
+            "title": "AC Line Widgets",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "titleStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "units": "",
+            "decimals": 1,
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "actions": {},
+            "margin": "10px"
+          },
+          "id": "3046af9e-c512-9eb6-5c82-6b7034d1b195"
+        },
+        "a1c83947-7f4c-127c-f59f-1debb1963730": {
+          "isSystemType": false,
+          "bundleAlias": "test2",
+          "typeAlias": "cards",
+          "type": "latest",
+          "title": "cards Info",
+          "sizeX": 10,
+          "sizeY": 6,
+          "row": 0,
+          "col": 2,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+                "dataKeys": [
+                  {
+                    "name": "IMEI",
+                    "type": "attribute",
+                    "label": "IMEI",
+                    "color": "#2196f3",
+                    "settings": {},
+                    "_hash": 0.12527183710919587
+                  },
+                  {
+                    "name": "IMSI",
+                    "type": "attribute",
+                    "label": "IMSI",
+                    "color": "#4caf50",
+                    "settings": {},
+                    "_hash": 0.4901958687025709
+                  },
+                  {
+                    "name": "ADDR",
+                    "type": "attribute",
+                    "label": "Address",
+                    "color": "#f44336",
+                    "settings": {},
+                    "_hash": 0.5962027040299804
+                  },
+                  {
+                    "name": "device-name",
+                    "type": "attribute",
+                    "label": "Device-Name",
+                    "color": "#ffc107",
+                    "settings": {},
+                    "_hash": 0.8612618714798741
+                  }
+                ]
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "#fff",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "8px",
+            "settings": {},
+            "title": "cards Info",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "titleStyle": {
+              "fontSize": "16px",
+              "fontWeight": 400
+            },
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "actions": {},
+            "margin": "10px"
+          },
+          "id": "a1c83947-7f4c-127c-f59f-1debb1963730"
+        },
+        "5a2ceba8-c593-bc9a-9d12-51cdcf33066c": {
+          "isSystemType": false,
+          "bundleAlias": "test2",
+          "typeAlias": "card_status",
+          "type": "latest",
+          "title": "card Status",
+          "sizeX": 10,
+          "sizeY": 6,
+          "row": 0,
+          "col": 2,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+                "dataKeys": [
+                  {
+                    "name": "PSU",
+                    "label": "DC-PSU",
+                    "type": "timeseries",
+                    "color": "#2196f3",
+                    "settings": {},
+                    "_hash": 0.8997304038482166
+                  },
+                  {
+                    "name": "BAT",
+                    "label": "BATTERY",
+                    "type": "timeseries",
+                    "color": "#4caf50",
+                    "settings": {},
+                    "_hash": 0.5723902740814248
+                  },
+                  {
+                    "name": "CSQ",
+                    "label": "RSSI",
+                    "type": "timeseries",
+                    "color": "#f44336",
+                    "settings": {},
+                    "_hash": 0.04993575442538156
+                  },
+                  {
+                    "name": "AC",
+                    "label": "Last Update",
+                    "type": "timeseries",
+                    "color": "#ffc107",
+                    "settings": {},
+                    "_hash": 0.18760379323475562,
+                    "postFuncBody": "var date = new Date(time);\nreturn date.toLocaleString();"
+                  },
+                  {
+                    "name": "sw",
+                    "type": "attribute",
+                    "label": "Switch Status",
+                    "color": "#607d8b",
+                    "settings": {},
+                    "_hash": 0.5086480217924085,
+                    "postFuncBody": "var txt_ret = \"\";\nif((value === 1)||(value === \"1\")){\n    txt_ret = \"On\";\n}else{\n    txt_ret = \"Off\";\n}\nreturn txt_ret;"
+                  }
+                ]
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "#fff",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "8px",
+            "settings": {},
+            "title": "card Status",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "titleStyle": {
+              "fontSize": "16px",
+              "fontWeight": 400
+            },
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "actions": {},
+            "margin": "10px"
+          },
+          "id": "5a2ceba8-c593-bc9a-9d12-51cdcf33066c"
+        },
+        "d5b19729-2e1f-69c3-3f4e-a1a681bf5064": {
+          "isSystemType": false,
+          "bundleAlias": "test2",
+          "typeAlias": "num_input",
+          "type": "latest",
+          "title": "Button",
+          "sizeX": 4,
+          "sizeY": 3,
+          "row": 0,
+          "col": 1,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+                "dataKeys": [
+                  {
+                    "name": "sw",
+                    "label": "sw",
+                    "type": "attribute",
+                    "color": "#2196f3",
+                    "settings": {},
+                    "_hash": 0.3348123903119593
+                  }
+                ]
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "8px",
+            "settings": {
+              "labelPosition": "left",
+              "highLimit": 1,
+              "lowLimitEnable": false,
+              "highLimitEnable": false,
+              "attributeScope": "Shared",
+              "lowLimit": 0
+            },
+            "title": "Button",
+            "dropShadow": true,
+            "enableFullscreen": true,
+            "titleStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "units": "",
+            "decimals": 1,
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "actions": {},
+            "margin": "10px"
+          },
+          "id": "d5b19729-2e1f-69c3-3f4e-a1a681bf5064"
+        },
+        "0f6b1654-88e8-0ce6-b050-5f1cfe59d642": {
+          "isSystemType": true,
+          "bundleAlias": "cards",
+          "typeAlias": "html_card",
+          "type": "static",
+          "title": "New widget",
+          "sizeX": 3,
+          "sizeY": 3,
+          "config": {
+            "datasources": [],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgba(255, 255, 255, 0)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "8px",
+            "settings": {
+              "cardHtml": "<div class='card'>R-Box</div>",
+              "cardCss": ".card {\n    font-weight: bold;\n    font-size: 24px;\n    color: #999;\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}"
+            },
+            "title": "tag abox",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "margin": "10px",
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "titleStyle": {
+              "fontSize": "16px",
+              "fontWeight": 400
+            },
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "actions": {}
+          },
+          "id": "0f6b1654-88e8-0ce6-b050-5f1cfe59d642"
+        },
+        "f2d12b56-a12f-3a74-cea9-9579f476e929": {
+          "isSystemType": false,
+          "bundleAlias": "test2",
+          "typeAlias": "r_box_widgets",
+          "type": "latest",
+          "title": "New widget",
+          "sizeX": 3,
+          "sizeY": 3,
+          "config": {
+            "datasources": [
+              {
+                "type": "entity",
+                "dataKeys": [
+                  {
+                    "name": "RELAY",
+                    "type": "timeseries",
+                    "label": "RELAY",
+                    "color": "#2196f3",
+                    "settings": {
+                      "logEnable": false
+                    },
+                    "_hash": 0.4062766062155112
+                  }
+                ],
+                "entityAliasId": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269"
+              }
+            ],
+            "timewindow": {
+              "realtime": {
+                "timewindowMs": 60000
+              }
+            },
+            "showTitle": false,
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgba(0, 0, 0, 0.87)",
+            "padding": "4px",
+            "settings": {
+              "labelPosition": "left",
+              "lowLimit": -50,
+              "highLimit": 10,
+              "lowLimitEnable": false,
+              "highLimitEnable": false,
+              "attributeScope": "Server"
+            },
+            "title": "New R-Box Widgets",
+            "dropShadow": true,
+            "enableFullscreen": false,
+            "titleStyle": {
+              "fontSize": "16px",
+              "fontWeight": 400
+            },
+            "units": "",
+            "decimals": 1,
+            "useDashboardTimewindow": true,
+            "showLegend": false,
+            "widgetStyle": {
+              "-webkit-border-radius": "8px",
+              "-moz-border-radius": "8px",
+              "border-radius": "8px"
+            },
+            "actions": {},
+            "margin": "10px"
+          },
+          "id": "f2d12b56-a12f-3a74-cea9-9579f476e929"
+        }
+      },
+      "states": {
+        "default": {
+          "name": "ABOX-001",
+          "root": true,
+          "layouts": {
+            "main": {
+              "widgets": {
+                "c5ac22f0-aa12-a503-60e2-20d7c2570abb": {
+                  "sizeX": 11,
+                  "sizeY": 7,
+                  "mobileHeight": null,
+                  "row": 9,
+                  "col": 11
+                },
+                "3159cbd8-d321-84bf-99e1-30d7ad74d895": {
+                  "sizeX": 9,
+                  "sizeY": 7,
+                  "row": 9,
+                  "col": 2
+                },
+                "3046af9e-c512-9eb6-5c82-6b7034d1b195": {
+                  "sizeX": 3,
+                  "sizeY": 3,
+                  "row": 0,
+                  "col": 5
+                },
+                "a1c83947-7f4c-127c-f59f-1debb1963730": {
+                  "sizeX": 10,
+                  "sizeY": 6,
+                  "row": 3,
+                  "col": 2
+                },
+                "5a2ceba8-c593-bc9a-9d12-51cdcf33066c": {
+                  "sizeX": 10,
+                  "sizeY": 6,
+                  "row": 3,
+                  "col": 12
+                },
+                "d5b19729-2e1f-69c3-3f4e-a1a681bf5064": {
+                  "sizeX": 4,
+                  "sizeY": 3,
+                  "row": 0,
+                  "col": 11
+                },
+                "0f6b1654-88e8-0ce6-b050-5f1cfe59d642": {
+                  "sizeX": 3,
+                  "sizeY": 3,
+                  "row": 0,
+                  "col": 2
+                },
+                "f2d12b56-a12f-3a74-cea9-9579f476e929": {
+                  "sizeX": 3,
+                  "sizeY": 3,
+                  "row": 0,
+                  "col": 8
+                }
+              },
+              "gridSettings": {
+                "backgroundColor": "rgb(248, 248, 248)",
+                "color": "rgba(0,0,0,0.870588)",
+                "columns": 24,
+                "margins": [
+                  10,
+                  10
+                ],
+                "backgroundSizeMode": "cover",
+                "autoFillHeight": false,
+                "mobileAutoFillHeight": false,
+                "mobileRowHeight": 70
+              }
+            }
+          }
+        }
+      },
+      "entityAliases": {
+        "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269": {
+          "id": "b33b87cb-7dfb-aad0-e2b1-bd061c3ff269",
+          "alias": "FromJson",
+          "filter": {
+            "type": "singleEntity",
+            "resolveMultiple": false,
+            "singleEntity": {
+              "entityType": "DEVICE",
+              "id": "95166a30-4281-11ea-a273-af1ea815a866"
+            }
+          }
+        }
+      },
+      "timewindow": {
+        "displayValue": "",
+        "selectedTab": 0,
+        "realtime": {
+          "interval": 1000,
+          "timewindowMs": 60000
+        },
+        "history": {
+          "historyType": 0,
+          "interval": 1000,
+          "timewindowMs": 60000,
+          "fixedTimewindow": {
+            "startTimeMs": 1576134876376,
+            "endTimeMs": 1576221276376
+          }
+        },
+        "aggregation": {
+          "type": "AVG",
+          "limit": 200
+        }
+      },
+      "settings": {
+        "stateControllerId": "entity",
+        "showTitle": false,
+        "showDashboardsSelect": false,
+        "showEntitiesSelect": false,
+        "showDashboardTimewindow": true,
+        "showDashboardExport": false,
+        "toolbarAlwaysOpen": false,
+        "titleColor": "rgba(0,0,0,0.870588)"
+      }
+    },
+    "name": "358878080305151"
+  }

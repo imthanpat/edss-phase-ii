@@ -5,21 +5,33 @@ const PHP_SERVICE = process.env.VUE_APP_PHP_SERVICE;
 
 export default {
   PhpDeviceAlarmLogList () {
-    return axios.get('http://119.31.121.151/data/pages/device_alarm_logs.php')
+    return axios.get(`${PHP_SERVICE}/data/pages/device_alarm_logs.php`)
       .then(response => {
         return response.data
       })
   },
   PhpDeviceAlarmLogListV2 (page,limit,sortBy,sortType,startDate,endDate,typeCode) {
-    return axios.get('http://119.31.121.151/data/pages/dev_device_alarm_logs.php?startDate=' + startDate + '&endDate=' + endDate + '&page=' + page + '&limit=' + limit + '&sortBy=' + sortBy + '&sortType=' + sortType + '&typeCode=' + typeCode)
+    return axios.get(`${PHP_SERVICE}/data/pages/dev_device_alarm_logs.php?startDate=` + startDate + `&endDate=` + endDate + `&page=` + page + `&limit=` + limit + `&sortBy=` + sortBy + `&sortType=` + sortType + `&typeCode=` + typeCode)
       .then(response => {
         return response.data
       })
   },
   PhpStackedBarChartInfo (startDate,endDate,typeCode){
-    return axios.get('http://119.31.121.151/data/pages/calculate_device_alarm_logs.php?startDate=' + startDate + '&endDate=' + endDate + '&typeCode=' + typeCode)
+    return axios.get(`${PHP_SERVICE}/data/pages/calculate_device_alarm_logs.php?startDate=` + startDate + `&endDate=` + endDate + `&typeCode=` + typeCode)
       .then(response => {
         return response.data
       })
-  }
+  },
+  PhpFmAlarmLogList (page,limit,sortBy,sortType,startDate,endDate,typeCode) {
+    return axios.get(`${PHP_SERVICE}/data/pages/dev_fm_alarm_logs.php?startDate=` + startDate + `&endDate=` + endDate + `&page=` + page + `&limit=` + limit + `&sortBy=` + sortBy + `&sortType=` + sortType + `&typeCode=` + typeCode)
+      .then(response => {
+        return response.data
+      })
+  },
+  PhpStackedBarChartFmInfo (startDate,endDate,typeCode){
+    return axios.get(`${PHP_SERVICE}/data/pages/calculate_fm_alarm_logs.php?startDate=` + startDate + `&endDate=` + endDate + `&typeCode=` + typeCode)
+      .then(response => {
+        return response.data
+      })
+  },
 }

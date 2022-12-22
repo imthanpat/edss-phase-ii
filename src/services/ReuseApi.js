@@ -11,8 +11,8 @@ export default {
           })
     },
 
-    ReuseInfo(types) {
-        return axios.get(`${PHP_SERVICE}/data/pages/dev_device_list.php?project_id=050add00-5f6f-11ed-a2c8-b55147006237&type=${types}`)
+    ReuseInfo(types, reuseId) {
+        return axios.get(`${PHP_SERVICE}/data/pages/reuse_list.php?project_id=${reuseId}&type=${types}`)
             .then(response => {
                 return response.data
             })
