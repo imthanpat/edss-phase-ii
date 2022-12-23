@@ -82,4 +82,14 @@ export default {
         return response.data
       })
   },
+  DeleteProject (projectId) {
+    return axios.delete(`${HOSTNAME}/api/customer/${projectId}`,{
+      headers: {
+        "X-Authorization": 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        return response.data
+      })
+  },
 }

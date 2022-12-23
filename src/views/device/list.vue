@@ -352,12 +352,13 @@
       </v-toolbar>
 
       <v-card-text
-        style="margin-bottom: 50px;padding: 0px;"
+        style="margin-bottom: 60px; padding: 0px"
         class="iframe-full"
       >
         <iframe
+          id="frame"
           class="iframe-full"
-          style="overflow-y:scroll"
+          style="overflow-y: scroll"
           frameborder="0"
           :src="currentDashboard"
         ></iframe>
@@ -677,7 +678,6 @@ import Chart from "chart.js";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-
 var _chartStatus = null;
 
 export default {
@@ -937,7 +937,9 @@ export default {
               this.chartStatus.dead == 0 ? "N/A" : this.chartStatus.dead,
               this.chartStatus.offline == 0 ? "N/A" : this.chartStatus.offline,
               this.chartStatus.online == 0 ? "N/A" : this.chartStatus.online,
-              this.chartStatus.maintanance == 0 ? "N/A" : this.chartStatus.maintanance,
+              this.chartStatus.maintanance == 0
+                ? "N/A"
+                : this.chartStatus.maintanance,
               this.chartStatus.new == 0 ? "N/A" : this.chartStatus.new,
             ],
             backgroundColor: [
@@ -963,8 +965,8 @@ export default {
         data: dataStatusChart,
         options: {
           legend: {
-              display: false
-            },
+            display: false,
+          },
           plugins: {
             legend: { display: false },
           },
@@ -988,7 +990,7 @@ export default {
           _newStatus[1] == 0 ? "N/A" : _newStatus[1],
           _newStatus[2] == 0 ? "N/A" : _newStatus[2],
           _newStatus[3] == 0 ? "N/A" : _newStatus[3],
-          _newStatus[4] == 0 ? "N/A" : _newStatus[4]
+          _newStatus[4] == 0 ? "N/A" : _newStatus[4],
         ];
         _chartStatus.update();
         document.getElementById("statusChart").style.display = "";
@@ -1058,14 +1060,13 @@ export default {
       }
 
       // Date
-      if(this.date != null){
+      if (this.date != null) {
         let s_date = this.date[0];
         let e_date = this.date[1];
         let _debug = _filter[4].storeLastUpdate;
 
         _filter = _filter.filter(
-          (x) =>
-            x.storeLastUpdate >= s_date && x.storeLastUpdate <= e_date
+          (x) => x.storeLastUpdate >= s_date && x.storeLastUpdate <= e_date
         );
       }
 
@@ -1250,9 +1251,9 @@ export default {
     viewDashboard(item) {
       let _uri = item.dashboard_url.split("?publicId=")[0];
       let _dashboardId = item.dashboard_url
-                  .split("?publicId=")[0]
-                  .split("/dashboards/")
-                  .slice(-1)[0];
+        .split("?publicId=")[0]
+        .split("/dashboards/")
+        .slice(-1)[0];
       this.currentDashboard = `${process.env.VUE_APP_ENDPOINT}/dashboards/${_dashboardId}?publicId=${this.projectId}`;
       this.dialogState = true;
     },
@@ -1643,7 +1644,6 @@ export default {
                   }
                 });
 
-
                 // Draw Chart
                 let dataStatusChart = {
                   labels: ["Dead", "Offline", "Online", "Maintanance", "New"],
@@ -1673,23 +1673,23 @@ export default {
                 // if (chartStatus != undefined) {
                 //   chartStatus.destroy();
                 // }
-            //     let myChart = new Chart(
-            //       document.getElementById("statusChart"),
-            //       {
-            //         type: "doughnut",
-            //         data: dataStatusChart,
+                //     let myChart = new Chart(
+                //       document.getElementById("statusChart"),
+                //       {
+                //         type: "doughnut",
+                //         data: dataStatusChart,
 
-            //         options: {
-            //           legend: {
-            //   display: false
-            // },
-            //           plugins: {
-            //             legend: { display: false },
-            //           },
-            //           aspectRatio: 1.5,
-            //         },
-            //       }
-            //     );
+                //         options: {
+                //           legend: {
+                //   display: false
+                // },
+                //           plugins: {
+                //             legend: { display: false },
+                //           },
+                //           aspectRatio: 1.5,
+                //         },
+                //       }
+                //     );
 
                 // Update Chart
                 this.updateChart();
@@ -1750,7 +1750,7 @@ export default {
     },
   },
   mounted() {
-    this.level = localStorage.getItem('level');
+    this.level = localStorage.getItem("level");
     this.createChart();
     this.loadInfo(this.projectId);
   },
@@ -1774,10 +1774,16 @@ export default {
 }
 
 .iframe-full {
-  width: -moz-available!important;
-  width: -webkit-fill-available!important;
-  
-  height: 100%!important;
-  height: -webkit-fill-available!important;
+  width: -moz-available !important;
+  width: -webkit-fill-available !important;
+
+  height: 100% !important;
+  height: -webkit-fill-available !important;
+}
+
+@-moz-document url-prefix() {
+  #frame {
+    padding-bottom: 50px;
+  }
 }
 </style>

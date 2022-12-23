@@ -88,7 +88,7 @@
     alternating
   >
     <template #item-action="item">
-      <v-btn-group v-if="item.actionBtn&&level != 'user'">
+      <v-btn-group v-if="item.actionBtn && level != 'user'">
         <v-btn size="small" icon="mdi-pencil" @click="editAction(item)"></v-btn>
         <v-btn
           size="small"
@@ -187,6 +187,7 @@
 import EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
 import ProjectApi from "../../services/ProjectApi";
+import LoginApi from "../../services/LoginApi";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
@@ -334,6 +335,65 @@ export default {
     resetEdit() {
       this.editInfo = JSON.parse(this.tmpEditInfo);
     },
+    delBtnClick(item) {
+      if (item.cnt != 0) {
+        this.$swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Project Is Not Empty",
+        });
+      } else {
+        var self = this;
+        this.$swal
+          .fire({
+            title: "Are you sure?",
+            text: "You want Delete This Project ?",
+            inputPlaceholder: "Please, Enter Your Current Password",
+            icon: "warning",
+            input: "password",
+            inputAttributes: {
+              autocapitalize: "off",
+            },
+            showCancelButton: true,
+            confirmButtonText: "Ok",
+            showLoaderOnConfirm: true,
+            preConfirm: (pass) => {
+              return LoginApi.AuthenEDSS({
+                username: localStorage.getItem("username"),
+                password: pass,
+              })
+                .then((response) => {
+                  console.log(response.token);
+                  if (!response.token) {
+                    throw new Error(response.statusText);
+                  }
+                  return response;
+                })
+                .catch((error) => {
+                  console.log(error);
+                  this.$swal.showValidationMessage(
+                    `${error.response.data.message}`
+                  );
+                });
+            },
+            allowOutsideClick: () => {
+              !this.$swal.isLoading();
+              return false;
+            },
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              ProjectApi.DeleteProject(item.id).then();
+              this.$swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Complete",
+              });
+              self.loadInfo();
+            }
+          });
+      }
+    },
     editAction(item) {
       this.editInfo.id = item.id;
       this.editInfo.name = item.name;
@@ -418,7 +478,7 @@ export default {
     };
   },
   mounted() {
-    this.level = localStorage.getItem('level');
+    this.level = localStorage.getItem("level");
     this.loadInfo();
   },
 };

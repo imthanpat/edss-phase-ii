@@ -1,4 +1,4 @@
-<template style="height: 100%;">
+<template style="height: 100%;" height="inherit">
   <div
     align="center"
     justify="center"
@@ -19,14 +19,20 @@
         Sory, Map layout feature available only TH-Box project.
       </p>
     </div>
+
+    
   </div>
 
-  <iframe
+  <div style="height: 100%;">
+    <iframe
       v-if="found == true"
-      style="width: -webkit-fill-available; height: 100%"
+      class="iframe-full"
       frameborder="0"
       :src="currentDashboard"
     ></iframe>
+  </div>
+
+  
 </template>
 <script>
 import ProjectApi from "../../services/ProjectApi";
@@ -44,7 +50,12 @@ export default {
   },
   watch: {
     projectId(newvalue, oldvalue) {
-      ProjectApi.GetListScope(newvalue)
+      this.loadInfo(newvalue);
+    },
+  },
+  methods: {
+    loadInfo(projectId){
+      ProjectApi.GetListScope(projectId)
         .then((response) => {
           let _mapUrl = response.find((o) => o.key === "map-url");
           let _thStatus =
@@ -75,8 +86,18 @@ export default {
             this.$router.push("/login");
           }
         });
-    },
+    }
   },
-  mounted() {},
+  mounted() {
+    this.loadInfo(this.projectId);
+  },
 };
 </script>
+<style scoped>
+.iframe-full {
+  width: -moz-available !important;
+  width: -webkit-fill-available !important;
+
+  height: 100% !important;
+  height: -webkit-fill-available !important;
+}</style>

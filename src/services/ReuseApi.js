@@ -18,6 +18,36 @@ export default {
             })
     },
 
+    ReuseInfoX(types, reuseId) {
+      let typeCode = "";
+      if (types == "A-Box") {
+        typeCode = "10000";
+      } else if (types == "W-Box") {
+        typeCode = "01000";
+      } else if (types == "VA-Box") {
+        typeCode = "00100";
+      } else if (types == "R-Box") {
+        typeCode = "00010";
+      } else if (types == "TH-Box") {
+        typeCode = "00001";
+      } else {
+        typeCode = "11111";
+      }
+  
+      return axios
+        .get(
+          `${PHP_SERVICE}/data/pages/reuse_list_ii.php?project_id=${reuseId}&typeCode=${typeCode}`
+        )
+        .then((response) => {
+          return response.data;
+        });
+  
+      // return axios.get(`${PHP_SERVICE}/data/pages/device_list.php?project_id=${projectId}&type=${type}`)
+      //     .then(response => {
+      //         return response.data
+      //     })
+    },
+
     GetListScope (deviceId) {
       return axios.get(`${HOSTNAME}/api/plugins/telemetry/DEVICE/`+ deviceId +'/values/attributes/SERVER_SCOPE', {
         headers: {

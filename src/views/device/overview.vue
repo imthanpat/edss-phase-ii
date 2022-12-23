@@ -749,6 +749,7 @@ export default {
           title: {
             display: true,
             text: "Status",
+            fontSize: 22,
           },
           // layout: {
           //   padding: 100,
@@ -804,9 +805,7 @@ export default {
           title: {
             display: true,
             text: "Stock",
-            font: {
-              size: 32,
-            },
+            fontSize: 22,
           },
           aspectRatio: 1,
           responsive: true,
