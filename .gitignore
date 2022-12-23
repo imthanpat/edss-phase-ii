@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
 /dist
-
+/phase2oob
+/phase2public
 
 # local env files
 .env.local
