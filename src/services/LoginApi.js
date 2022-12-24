@@ -28,5 +28,53 @@ export default {
         .then(response => {
             return response.data
         })
-  }
+  },
+  EditUser(sysadminToken, payload) {
+    return axios.post(
+        `${HOSTNAME}/api/user?sendActivationMail=false`, payload,
+        {
+          headers: {
+            "X-Authorization": "Bearer " + localStorage.getItem('token'),
+          },
+        }
+      )
+      .then((response) => {
+        return response.data;
+      });
+  },
+  ActivationLink(userId) {
+    return axios.get(`${HOSTNAME}/api/user/${userId}/activationLink`,
+          {
+            headers: {
+              "X-Authorization": "Bearer " + localStorage.getItem('token'),
+            },
+          }
+        )
+        .then((response) => {
+          return response.data;
+        });
+  },
+  Activate(payload) {
+    return axios.post(
+      `${HOSTNAME}/api/noauth/activate`, payload,
+      {
+        headers: {
+          "X-Authorization": "Bearer " + localStorage.getItem('token'),
+        },
+      }
+    )
+    .then((response) => {
+      return response.data;
+    });
+  },
+  DeleteUser (userId) {
+    return axios.delete(`${HOSTNAME}/api/user/${userId}`,{
+      headers: {
+        "X-Authorization": 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        return response.data
+      })
+    }
 }
