@@ -372,6 +372,7 @@
                             '10 min',
                             '15 min',
                             '30 min',
+                            '60 min',
                           ]"
                           variant="outlined"
                         ></v-autocomplete>
@@ -594,6 +595,7 @@ export default {
         { text: "10 min", value: "600" },
         { text: "15 min", value: "900" },
         { text: "30 min", value: "1800" },
+        { text: "60 min", value: "3600" },
       ],
       tmpEditModel: null,
       disableEditSave: true,

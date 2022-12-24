@@ -11,14 +11,14 @@ export default {
           })
     },
 
-    ReuseInfo(types, reuseId) {
+    ReuseInfoX(types, reuseId) {
         return axios.get(`${PHP_SERVICE}/data/pages/reuse_list.php?project_id=${reuseId}&type=${types}`)
             .then(response => {
                 return response.data
             })
     },
 
-    ReuseInfoX(types, reuseId) {
+    ReuseInfo(types, reuseId) {
       let typeCode = "";
       if (types == "A-Box") {
         typeCode = "10000";
