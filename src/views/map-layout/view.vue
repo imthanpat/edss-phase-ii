@@ -23,7 +23,7 @@
     
   </div>
 
-  <div style="height: 100%;">
+  <div style="height: 100vh!important;">
     <iframe
       v-if="found == true"
       class="iframe-full"
