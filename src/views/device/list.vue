@@ -333,6 +333,19 @@
       </v-btn-group>
     </template>
   </EasyDataTable>
+  <div class="text-right mt-2 mb-2">
+    <v-btn
+      prepend-icon="mdi-file-excel-outline"
+      size="small"
+      variant="outlined"
+      color="success"
+      @click="exportExcel"
+      :disabled="serveSideloading"
+    >
+      CSV Export
+    </v-btn>
+  </div>
+
   <GDialog max-width="1200" height="inherit" v-model="dialogState" scrollable>
     <v-card width="inherit" height="inherit" class="">
       <v-toolbar
@@ -928,6 +941,111 @@ export default {
   },
 
   methods: {
+    toStrCsv(items) {
+      let str = "";
+      items.forEach((ele) => {
+        let _line = "";
+        let _statusStr = "";
+        switch (ele.statusCode){
+          case 1:
+            _statusStr = "Online"
+            break;
+          case 2:
+            _statusStr = "Offline"
+            break;
+          case 3:
+            _statusStr = "Dead"
+            break;
+          case 4:
+            _statusStr = "Maintanance"
+            break;
+          case 5:
+            _statusStr = "New"
+            break;
+          default:
+            _statusStr = "Status" // Header
+            break; 
+        }
+
+        _line += _statusStr + ",";
+        _line += ele.imei + ",";
+        _line += ele.type + ",";
+        _line += ele.addr + ",";
+        _line += ele.device_name.replace(/,/g, "") + ",";
+        _line += ele.imsi + ",";
+        _line += ele.none_mobile + ",";
+        _line += ele.provinde + ",";
+        _line += ele.region + ",";
+        _line += ( ele.ac ? ele.ac : "" )  + ",";
+        _line += ( ele.relay ? ele.relay : "" ) + ",";
+        _line += ( ele.vlt ? ele.vlt : "" ) + ",";
+        _line += ( ele.cur ? ele.cur : "" ) + ",";
+        _line += ( ele.tmp ? ele.tmp : "" ) + ",";
+        _line += ( ele.hum ? ele.hum : "" ) + ",";
+        _line += ( ele.tmp ? ele.tmp : "" ) + ",";
+        _line += ( ele.hum ? ele.hum : "" ) + ",";
+        _line += ( ele.opt ? ele.opt : "" );
+
+        str += _line + "\r\n";
+      });
+
+      return str;
+    },
+    exportCSVFile(headers, items, fileTitle) {
+      if (headers) {
+        items.unshift(headers);
+      }
+
+      // Convert Object to JSON
+      // var jsonObject = JSON.stringify(items);
+
+      // var csv = this.convertToCSV(jsonObject);
+      let csv = this.toStrCsv(items);
+
+      var exportedFilenmae = fileTitle + ".csv" || "export.csv";
+
+      var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      if (navigator.msSaveBlob) {
+        // IE 10+
+        navigator.msSaveBlob(blob, exportedFilenmae);
+      } else {
+        var link = document.createElement("a");
+        if (link.download !== undefined) {
+          // feature detection
+          // Browsers that support HTML5 download attribute
+          var url = URL.createObjectURL(blob);
+          link.setAttribute("href", url);
+          link.setAttribute("download", exportedFilenmae);
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      }
+    },
+    exportExcel() {
+      let _csv_headers = {
+        statusCode: "Status",
+        imei: "IMEI",
+        type: "Type",
+        addr: "Address",
+        device_name: "Device Name",
+        imsi: "IMSI",
+        none_mobile: "None-Mobile",
+        provinde: "Provinde",
+        region: "Region",
+        ac: "AC",
+        relay: "Relay",
+        vlt: "Vlt Sensor",
+        cur: "Cur Sensor",
+        tmp: "Tmp Flag",
+        hum: "Hum Flag",
+        tmp: "Tmp Sensor",
+        hum: "Hum Sensor",
+        opt: "Opt Sensor"
+      };
+      this.exportCSVFile(_csv_headers, this.items, "Device-List-Export.csv");
+    },
     createChart() {
       // Draw Chart
       let dataStatusChart = {
