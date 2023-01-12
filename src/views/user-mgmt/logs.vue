@@ -32,6 +32,7 @@
     :loading="serveSideloading"
     :headers="headers"
     :items="items"
+    theme-color="#8DC73F"
   >
     <template #item-user_name="item">
       <strong>{{ item.user_name }}</strong>

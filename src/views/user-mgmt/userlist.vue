@@ -33,6 +33,7 @@
     :headers="headers"
     :items="items"
     buttons-pagination
+    theme-color="#8DC73F"
   >
     <template #item-username="item">
       <strong>{{ item.username }}</strong>
@@ -252,7 +253,7 @@
               :disabled="disableEditSave"
               @click="editSave()"
             >
-              Submit
+              <span style="color:white;">Submit</span>
             </v-btn>
             <v-btn
               color="default"

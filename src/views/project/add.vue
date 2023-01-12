@@ -43,7 +43,7 @@
         <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
         <v-col cols="12" sm="6">
           <v-btn size="small" color="success" @click="saveEdit()">
-            submit
+            <span style="color:white;">Submit</span>
           </v-btn>
         </v-col>
       </v-row>

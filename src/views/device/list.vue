@@ -200,8 +200,8 @@
         <v-row no-gutters>
           <v-col cols="4">&nbsp;</v-col>
           <v-col cols="8" class="pa-2">
-            <v-btn @click="submitSearch()" color="success" :disabled="false">
-              submit
+            <v-btn @click="submitSearch()" color="success" :disabled="false">  
+              <span style="color:white;">Submit</span>
             </v-btn>
             <v-btn class="ml-4" @click="clearSearch()"> Clear </v-btn>
           </v-col>
@@ -235,6 +235,7 @@
     :headers="headers"
     :items="items"
     buttons-pagination
+    theme-color="#8DC73F"
   >
     <template #item-statusCode="item">
       <v-chip
@@ -669,7 +670,7 @@
               :disabled="disableEditSave"
               @click="editSave()"
             >
-              submit
+              <span style="color:white;">Submit</span>
             </v-btn>
             <v-btn class="ml-4" @click="editDialogState = false"> Close </v-btn>
           </v-col>
@@ -789,7 +790,7 @@ export default {
       //       backgroundColor: [
       //         "rgb(255, 99, 132)",
       //         "rgb(255, 159, 64)",
-      //         "#009644",
+      //         "#8dc73f",
       //         "gray",
       //         "#36a2eb",
       //       ],
@@ -1065,7 +1066,7 @@ export default {
             backgroundColor: [
               "rgb(255, 99, 132)",
               "rgb(255, 159, 64)",
-              "#009644",
+              "#8dc73f",
               "gray",
               "#36a2eb",
             ],
@@ -1780,7 +1781,7 @@ export default {
                       backgroundColor: [
                         "rgb(255, 99, 132)",
                         "rgb(255, 159, 64)",
-                        "#009644",
+                        "#8dc73f",
                         "gray",
                         "#36a2eb",
                       ],
