@@ -4,7 +4,7 @@
       <v-list-item
         exact-active-class="font-weight-black"
         two-line
-        prepend-avatar="http://119.31.121.151/assets/img/aisnotext.svg"
+        :prepend-avatar="urlLogo"
       >
         <template v-slot:title>
           <h5 class="text-h6" style="color: white">Enterprise Data Service</h5>
@@ -22,6 +22,7 @@
         <v-list-item exact-active-class="font-weight-black" two-line>
           <template v-slot:title>
             <v-badge
+              style="color: white!important;"
               color="success"
               content="Online"
               inline
@@ -111,10 +112,11 @@ export default {
   components: {
     NavManu,
     AppBar,
-    NavManu,
+    NavManu
   },
   data() {
     return {
+      urlLogo: "",
       level: "",
       status: {
         cpu: null,
@@ -241,6 +243,7 @@ export default {
     },
   },
   created() {
+    this.urlLogo = `${process.env.VUE_APP_PHP_SERVICE}/data/aisnotext.svg`;
     this.level = localStorage.getItem("level");
     this.GetServerStatus();
     this.interval = setInterval(() => {
@@ -282,5 +285,9 @@ export default {
 <style>
 .v-combobox__content {
   max-height: 200px !important;
+}
+
+.bg-success {
+  color: white!important;
 }
 </style>

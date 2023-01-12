@@ -68,7 +68,7 @@
       <v-row no-gutters>
         <v-col cols="2">&nbsp;</v-col>
         <v-col cols="6" class="pa-2">
-          <v-btn @click="submitSearch" color="success"> submit </v-btn>
+          <v-btn @click="submitSearch" color="success"> <span style="color:white;">Submit</span> </v-btn>
           <v-btn class="ml-4" @click="clearSearch"> Clear </v-btn>
         </v-col>
       </v-row>
@@ -86,6 +86,7 @@
     :loading="serveSideloading"
     :items="items"
     alternating
+    theme-color="#8DC73F"
   >
     <template #item-action="item">
       <v-btn-group v-if="item.actionBtn && level != 'user'">
@@ -170,7 +171,7 @@
                 :disabled="disableSave"
                 @click="saveEdit()"
               >
-                submit
+                <span style="color:white;">Submit</span>
               </v-btn>
               <v-btn size="small" class="ml-4" @click="resetEdit()">
                 Reset

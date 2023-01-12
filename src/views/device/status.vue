@@ -130,7 +130,7 @@
           <v-divider />
           <div align="right" class="pa-5">
             <v-btn @click="setThreshold" color="success"  :disabled="btnDisable">
-              submit
+              <span style="color:white;">Submit</span>
             </v-btn>
             <v-btn class="ml-4" @click="fromRaw"> Reset </v-btn>
           </div>

@@ -144,7 +144,7 @@
         </v-col>
         <v-col class="mt-5 mb-5 pl-5" cols="12" v-if="level != 'user'">
           <v-btn @click="submitEvent" color="success" :disabled="isSubmit">
-            submit
+            <span style="color:white;">Submit</span>
           </v-btn>
           <v-btn class="ml-4" @click="resetEvent"> Reset </v-btn>
         </v-col>

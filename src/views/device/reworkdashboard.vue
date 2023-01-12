@@ -37,7 +37,7 @@
             color="success"
             :disabled="disabledVal"
           >
-            submit
+            <span style="color:white;">Submit</span>
           </v-btn>
           <v-btn size="small" class="ml-4" @click="clearSearch()">
             Clear
@@ -61,6 +61,7 @@
     :headers="headers"
     :items="items"
     alternating
+    theme-color="#8DC73F"
   >
     <template #item-info="item">
       <v-expansion-panels class="mt-5 mb-5">

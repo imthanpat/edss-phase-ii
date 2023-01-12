@@ -182,7 +182,7 @@
             :disabled="disableEditSave"
             @click="validate()"
           >
-            Submit
+            <span style="color:white;">Submit</span>
           </v-btn>
           <v-btn color="default" class="ml-4" @click="reset()"> Reset </v-btn>
         </v-col>

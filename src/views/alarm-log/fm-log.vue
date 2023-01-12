@@ -97,7 +97,7 @@
         <v-col cols="2">&nbsp;</v-col>
         <v-col cols="6" class="pa-2">
           <v-btn @click="submitSearch" color="success" :disabled="false">
-            submit
+            <span style="color:white;">Submit</span>
           </v-btn>
           <v-btn class="ml-4" @click="resetEvent"> Clear </v-btn>
         </v-col>
@@ -139,6 +139,7 @@
         :headers="headers"
         :items="items"
         buttons-pagination
+        theme-color="#8DC73F"
       >
       <template #item-device_name="item"><strong>{{item.device_name}}</strong></template>
       <template #item-alarm_status="item">

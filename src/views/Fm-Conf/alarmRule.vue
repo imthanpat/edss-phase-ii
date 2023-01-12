@@ -5,6 +5,7 @@
     :headers="headers"
     :items="items"
     buttons-pagination
+    theme-color="#8DC73F"
   >
     <template #item-type="item">
       <v-chip
@@ -87,7 +88,7 @@
                 :disabled="disableSave"
                 @click="saveEdit()"
               >
-                submit
+                <span style="color:white;">Submit</span>
               </v-btn>
               <v-btn size="small" class="ml-4" @click="resetEdit()"> Reset </v-btn>
             </v-col>

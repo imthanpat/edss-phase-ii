@@ -8,7 +8,7 @@
             <h5 class="text-subtitle-1">
               IoT Operation Platform<v-badge
                 color="black"
-                content="dev-phase-ii"
+                content="phase-ii"
                 inline
               >
               </v-badge>
@@ -36,7 +36,7 @@
                 v-model="pwd"
                 @keyup.enter="auth"
               ></v-text-field>
-              <v-btn block color="success" @click="auth"> Sign In </v-btn>
+              <v-btn block color="success" @click="auth"> <span style="color:white;">Sign In </span></v-btn>
             </v-form>
           </v-card-text>
         </v-card>

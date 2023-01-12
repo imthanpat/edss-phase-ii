@@ -81,7 +81,7 @@
         <v-col cols="2">&nbsp;</v-col>
         <v-col cols="6" class="pa-2">
           <v-btn @click="submitSearch" color="success" :disabled="false">
-            submit
+            <span style="color:white;">Submit</span>
           </v-btn>
           <v-btn class="ml-4" @click="clearSearch"> Clear </v-btn>
         </v-col>
@@ -100,6 +100,7 @@
     :headers="headers"
     :items="items"
     buttons-pagination
+    theme-color="#8DC73F"
   >
     <template #item-statusCode="item">
       <v-chip
@@ -169,6 +170,7 @@
           :hide-rows-per-page="true"
           :search-field="searchMoveField"
           :search-value="searchMovePj"
+          theme-color="#8DC73F"
         >
           <template #item-id="item">
             <v-checkbox
@@ -480,7 +482,7 @@
               :disabled="disableEditSave"
               @click="editSave()"
             >
-              submit
+              <span style="color:white;">Submit</span>
             </v-btn>
             <v-btn class="ml-4" @click="editDialogState = false"> Close </v-btn>
           </v-col>
