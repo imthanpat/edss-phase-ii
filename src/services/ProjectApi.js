@@ -92,4 +92,37 @@ export default {
         return response.data
       })
   },
+  GetProjectDashboard (dashboardId) {
+    return axios.get(`${HOSTNAME}/api/dashboard/${dashboardId}`, {
+      headers: {
+        "X-Authorization": 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        return response.data
+      })
+  },
+  SetProjectLayout (payload) {
+    return axios.post(`${HOSTNAME}/api/dashboard`, payload, {
+      headers: {
+        "X-Authorization": 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+      .then(response => {
+        return response.data
+      })
+  },
+  FixDashboardIssue(dashboardId, projectId) {
+    //http://182.52.50.211:18080/api/dashboard/760af2e0-a8ec-11ec-a2c8-b55147006237/customers
+    let _payload = [projectId];
+    return axios
+      .post(`${HOSTNAME}/api/dashboard/${dashboardId}/customers`, _payload, {
+        headers: {
+          "X-Authorization": "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        return response.data;
+      });
+  },
 }

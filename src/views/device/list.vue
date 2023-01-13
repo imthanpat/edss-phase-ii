@@ -1216,16 +1216,16 @@ export default {
       let _nmb = this.editModel.info.nmb != null ? this.editModel.info.nmb : "";
       let _devicename =
         this.editModel.info.deviceName != null
-          ? this.editModel.info.deviceName
+          ? this.editModel.info.deviceName.replace(/'/g, "_").replace(/"/g, "_")
           : "";
       let _ex = `{"none-mobile": "${_nmb}", "device-name": "${_devicename}"}`;
 
       let _body = JSON.parse(_ex);
       _body.addr =
-        this.editModel.info.addr != null ? this.editModel.info.addr : "";
+        this.editModel.info.addr != null ? this.editModel.info.addr.replace(/'/g, "_").replace(/"/g, "_") : "";
       _body.provinde =
         this.editModel.info.provinde != null
-          ? this.editModel.info.provinde
+          ? this.editModel.info.provinde.replace(/'/g, "_").replace(/"/g, "_")
           : "";
       _body.region =
         this.editModel.info.region != null ? this.editModel.info.region : "";

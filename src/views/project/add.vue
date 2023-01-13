@@ -11,6 +11,22 @@
     </v-toolbar>
     <v-card-text>
       <v-row class="justify-center align-center">
+        <template v-if="alert">
+              <!-- <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col> -->
+              <v-col cols="12" sm="12">
+                <v-alert
+                  variant="outlined"
+                  type="error"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Plase Check Image Resolution Allow width:1200 px , height:800
+                  px Only!
+                </v-alert>
+              </v-col>
+            </template>
+
         <v-col cols="12" sm="4" class="text-right">
           <span class="text-overline"
             >Project-Name<span style="color: red">*</span></span
@@ -40,10 +56,89 @@
           </v-row>
         </v-col>
 
+        <template v-if="editInfo.thbox">
+              <v-col cols="12" sm="4" class="text-right h-100">
+                <span class="text-overline flex-grow-1">Project Layout</span>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input
+                  @change="Preview_image"
+                  v-model="files"
+                  counter
+                  label="File input" 
+                  variant="underlined"
+                  prepend-icon="mdi-paperclip"
+                  :hide-details="true"
+                  :show-size="1000"
+                  accept="image/*"
+                >
+                  <template v-slot:selection="{ fileNames }">
+                    <template
+                      v-for="(fileName, index) in fileNames"
+                      :key="fileName"
+                    >
+                      <v-chip
+                        v-if="index < 2"
+                        color="light-green-darken-2"
+                        label
+                        size="small"
+                        class="mr-2"
+                      >
+                        {{ fileName }}
+                      </v-chip>
+
+                      <span
+                        v-else-if="index === 2"
+                        class="text-overline text-grey-darken-3 mx-2"
+                      >
+                        +{{ files.length - 2 }} File(s)
+                      </span>
+                    </template>
+                  </template>
+                </v-file-input>
+              </v-col>
+
+              <!-- <template v-if="alert">
+              <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
+              <v-col cols="12" sm="6">
+                <v-alert
+                  variant="outlined"
+                  type="error"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Plase Check Image Resolution <br />
+                  width:1200 px , height:800 px Only!
+                </v-alert>
+              </v-col>
+              </template> -->
+
+              <v-col cols="12" sm="4" class="text-right">
+                Layout Preview
+              </v-col>
+              <v-col cols="12" sm="6" class="text-right">
+                <v-img :src="editInfo.layoutSrc"></v-img>
+              </v-col>
+
+              <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
+              <v-col cols="12" sm="6">
+                <v-alert
+                  variant="outlined"
+                  type="warning"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Image Allow : width:1200 px , height:800 px Only!
+                </v-alert>
+              </v-col>
+            </template>
+
         <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
         <v-col cols="12" sm="6">
           <v-btn size="small" color="success" @click="saveEdit()">
-            <span style="color:white;">Submit</span>
+            <span style="color: white">Submit</span>
           </v-btn>
         </v-col>
       </v-row>
@@ -53,9 +148,13 @@
 
 <script>
 import ProjectApi from "../../services/ProjectApi";
+import mapLayoutJson from "../../assets/info/map-layout.json";
+
 export default {
   data() {
     return {
+      alert: false,
+      files: [],
       defaultVale: {
         lost_period: 1440,
         offline_period: 720,
@@ -122,10 +221,48 @@ export default {
         vabox: null,
         thbox: null,
         rbox: null,
+        dashboardId: null,
+        layoutSrc: null,
+        dashboardConf: null,
       },
     };
   },
   methods: {
+    async Preview_image() {
+      const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+
+      const photoUrl = URL.createObjectURL(this.files[0]);
+      const image = new Image();
+      const imageDimensions = await new Promise((resolve) => {
+        image.onload = () => {
+          const dimensions = {
+            height: image.height,
+            width: image.width,
+          };
+          resolve(dimensions);
+        };
+        image.src = photoUrl;
+      });
+
+      if (imageDimensions.width == 1200 && imageDimensions.height == 800) {
+        //this.editInfo.layoutSrc = URL.createObjectURL(this.files[0]);
+        this.editInfo.layoutSrc = await toBase64(this.files[0]);
+      } else {
+        this.alert = true;
+        self = this;
+        setTimeout(function () {
+          self.alert = false;
+          self.files = [];
+        }, 4000);
+        this.resetEdit();
+      }
+    },
     saveEdit() {
       let _nameChangePayload = {};
       _nameChangePayload.title = this.editInfo.name;
@@ -133,27 +270,40 @@ export default {
       // Change Name
       ProjectApi.SetNameProject(_nameChangePayload)
         .then((response) => {
+          // ProjectId
           this.editInfo.id = response.id.id;
 
-          // Set DeviceType
-          let _deviceType = {};
-          _deviceType["A-Box"] = this.editInfo.abox ? "true" : "";
-          _deviceType["W-Box"] = this.editInfo.wbox ? "true" : "";
-          _deviceType["TH-Box"] = this.editInfo.thbox ? "true" : "";
-          _deviceType["VA-Box"] = this.editInfo.vabox ? "true" : "";
-          _deviceType["R-Box"] = this.editInfo.rbox ? "true" : "";
-          _deviceType.lastUpdate = Math.floor(Date.now()).toString();
-          Object.assign(_deviceType, this.defaultVale);
-          ProjectApi.SetServerScope(this.editInfo.id, _deviceType).then();
-          ProjectApi.PhpMakePojectPublic(this.editInfo.id).then();
-          
-          this.$swal.fire({
-            icon: "success",
-            title: "Success!",
-            text: "Complete",
+          // Create Map-Layout
+          mapLayoutJson.title = this.editInfo.name;
+          mapLayoutJson.name = this.editInfo.name;
+          mapLayoutJson.configuration.states.default.layouts.main.gridSettings.backgroundImageUrl = this.editInfo.layoutSrc
+          ProjectApi.SetProjectLayout(mapLayoutJson).then((_mapRes) => {
+            let _dashboardId = _mapRes.id.id;
+            let _projectId = this.editInfo.id;
+            // Make Public
+            ProjectApi.PhpMakePojectPublic(this.editInfo.id).then();
+            ProjectApi.FixDashboardIssue(_dashboardId, _projectId);
+
+            // Set DeviceType
+            let _deviceType = {};
+            _deviceType["A-Box"] = this.editInfo.abox ? "true" : "";
+            _deviceType["W-Box"] = this.editInfo.wbox ? "true" : "";
+            _deviceType["TH-Box"] = this.editInfo.thbox ? "true" : "";
+            _deviceType["VA-Box"] = this.editInfo.vabox ? "true" : "";
+            _deviceType["R-Box"] = this.editInfo.rbox ? "true" : "";
+            _deviceType["map-url"] = `${process.env.VUE_APP_ENDPOINT}/dashboards/${_dashboardId}?publicId=${_projectId}`;
+            _deviceType.lastUpdate = Math.floor(Date.now()).toString();
+            Object.assign(_deviceType, this.defaultVale);
+            ProjectApi.SetServerScope(this.editInfo.id, _deviceType).then();
+
+            this.$swal.fire({
+              icon: "success",
+              title: "Success!",
+              text: "Complete",
+            });
+
+            this.$router.push("/project/list");
           });
-          
-          this.$router.push("/project/list");
         })
         .catch((err) => {
           console.log(err);
@@ -268,5 +418,8 @@ export default {
       // }
     },
   },
+  mounted() {
+    this.editInfo.layoutSrc  = mapLayoutJson.configuration.states.default.layouts.main.gridSettings.backgroundImageUrl;
+  }
 };
 </script>

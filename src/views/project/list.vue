@@ -68,7 +68,9 @@
       <v-row no-gutters>
         <v-col cols="2">&nbsp;</v-col>
         <v-col cols="6" class="pa-2">
-          <v-btn @click="submitSearch" color="success"> <span style="color:white;">Submit</span> </v-btn>
+          <v-btn @click="submitSearch" color="success">
+            <span style="color: white">Submit</span>
+          </v-btn>
           <v-btn class="ml-4" @click="clearSearch"> Clear </v-btn>
         </v-col>
       </v-row>
@@ -99,7 +101,11 @@
       </v-btn-group>
     </template>
   </EasyDataTable>
-  <v-dialog max-width="800px" v-model="isActive">
+  <v-dialog
+    max-width="900px"
+    v-model="isActive"
+    style="z-index: 900 !important"
+  >
     <template v-slot:default="{ isActive }">
       <v-card>
         <v-toolbar
@@ -114,6 +120,21 @@
         </v-toolbar>
         <v-card-text class="mb-5">
           <v-row class="justify-center align-center">
+            <template v-if="alert">
+              <!-- <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col> -->
+              <v-col cols="12" sm="12">
+                <v-alert
+                  variant="outlined"
+                  type="error"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Plase Check Image Resolution Allow width:1200 px , height:800
+                  px Only!
+                </v-alert>
+              </v-col>
+            </template>
             <v-col cols="12" sm="4" class="text-right">
               <span class="text-overline"
                 >Project-Name<span style="color: red">*</span></span
@@ -163,6 +184,85 @@
               </v-row>
             </v-col>
 
+            <template v-if="editInfo.thbox">
+              <v-col cols="12" sm="4" class="text-right h-100">
+                <span class="text-overline flex-grow-1">Project Layout</span>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-file-input
+                  @change="Preview_image"
+                  v-model="files"
+                  counter
+                  label="File input" 
+                  variant="underlined"
+                  prepend-icon="mdi-paperclip"
+                  :hide-details="true"
+                  :show-size="1000"
+                  accept="image/*"
+                >
+                  <template v-slot:selection="{ fileNames }">
+                    <template
+                      v-for="(fileName, index) in fileNames"
+                      :key="fileName"
+                    >
+                      <v-chip
+                        v-if="index < 2"
+                        color="light-green-darken-2"
+                        label
+                        size="small"
+                        class="mr-2"
+                      >
+                        {{ fileName }}
+                      </v-chip>
+
+                      <span
+                        v-else-if="index === 2"
+                        class="text-overline text-grey-darken-3 mx-2"
+                      >
+                        +{{ files.length - 2 }} File(s)
+                      </span>
+                    </template>
+                  </template>
+                </v-file-input>
+              </v-col>
+
+              <!-- <template v-if="alert">
+              <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
+              <v-col cols="12" sm="6">
+                <v-alert
+                  variant="outlined"
+                  type="error"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Plase Check Image Resolution <br />
+                  width:1200 px , height:800 px Only!
+                </v-alert>
+              </v-col>
+              </template> -->
+
+              <v-col cols="12" sm="4" class="text-right">
+                Layout Preview
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-img :src="editInfo.layoutSrc"></v-img>
+              </v-col>
+
+              <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
+              <v-col cols="12" sm="6">
+                <v-alert
+                  variant="outlined"
+                  type="warning"
+                  prominent
+                  border="top"
+                  class="text-caption"
+                >
+                  Image Allow : width:1200 px , height:800 px Only!
+                </v-alert>
+              </v-col>
+            </template>
+
             <v-col cols="12" sm="4" class="text-right"> &nbsp; </v-col>
             <v-col cols="12" sm="6">
               <v-btn
@@ -171,7 +271,7 @@
                 :disabled="disableSave"
                 @click="saveEdit()"
               >
-                <span style="color:white;">Submit</span>
+                <span style="color: white">Submit</span>
               </v-btn>
               <v-btn size="small" class="ml-4" @click="resetEdit()">
                 Reset
@@ -206,6 +306,42 @@ export default {
     },
   },
   methods: {
+    async Preview_image() {
+      const toBase64 = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+        });
+
+      const photoUrl = URL.createObjectURL(this.files[0]);
+      const image = new Image();
+      const imageDimensions = await new Promise((resolve) => {
+        image.onload = () => {
+          const dimensions = {
+            height: image.height,
+            width: image.width,
+          };
+          resolve(dimensions);
+        };
+        image.src = photoUrl;
+      });
+
+      if (imageDimensions.width == 1200 && imageDimensions.height == 800) {
+        //this.editInfo.layoutSrc = URL.createObjectURL(this.files[0]);
+        this.editInfo.layoutSrc = await toBase64(this.files[0]);
+      } else {
+        this.alert = true;
+        self = this;
+        setTimeout(function () {
+          self.alert = false;
+          self.files = [];
+          self.editInfo.layoutSrc = null;
+        }, 4000);
+        this.resetEdit();
+      }
+    },
     submitSearch() {
       // Search Txt
 
@@ -309,11 +445,17 @@ export default {
           _deviceType["VA-Box"] = this.editInfo.vabox ? "true" : "";
           _deviceType["R-Box"] = this.editInfo.rbox ? "true" : "";
           _deviceType.lastUpdate = Math.floor(Date.now()).toString();
+          if (this.editInfo.thbox) {
+            this.editInfo.dashboardConf.configuration.states.default.layouts.main.gridSettings.backgroundImageUrl =
+              this.editInfo.layoutSrc;
+            ProjectApi.SetProjectLayout(this.editInfo.dashboardConf).then();
+          }
           ProjectApi.SetServerScope(this.editInfo.id, _deviceType).then();
           ProjectApi.PhpMakePojectPublic(this.editInfo.id).then();
           this.isActive = false;
           this.disableSave = true;
           this.loadInfo();
+
           this.$swal.fire({
             icon: "success",
             title: "Success!",
@@ -427,9 +569,23 @@ export default {
             response.find((o) => o.key === "TH-Box").value == "true"
               ? true
               : false;
-          //this.listEnable = tmpListEnablle;
 
-          this.tmpEditInfo = JSON.stringify({ ...this.editInfo });
+          if (this.editInfo.thbox) {
+            this.editInfo.dashboardId = response
+              .find((o) => o.key === "map-url")
+              .value.split("/dashboards/")
+              .slice(-1)[0];
+            ProjectApi.GetProjectDashboard(this.editInfo.dashboardId).then(
+              (_res) => {
+                this.editInfo.dashboardConf = _res;
+                this.editInfo.layoutSrc =
+                  _res.configuration.states.default.layouts.main.gridSettings.backgroundImageUrl;
+                this.tmpEditInfo = JSON.stringify({ ...this.editInfo });
+              }
+            );
+          } else {
+            this.tmpEditInfo = JSON.stringify({ ...this.editInfo });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -443,11 +599,17 @@ export default {
             this.$router.push("/login");
           }
         });
+
       this.isActive = true;
     },
   },
   data() {
     return {
+      alert: false,
+
+      url: null,
+      files: [],
+
       level: "",
       selDateSearchType: "lastupdate",
       date: null,
@@ -475,6 +637,9 @@ export default {
         vabox: null,
         thbox: null,
         rbox: null,
+        dashboardId: null,
+        layoutSrc: null,
+        dashboardConf: null,
       },
     };
   },
@@ -484,3 +649,8 @@ export default {
   },
 };
 </script>
+<style>
+.swal2-show {
+  z-index: 300000 !important;
+}
+</style>
