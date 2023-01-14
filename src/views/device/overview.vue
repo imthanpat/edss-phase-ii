@@ -1337,6 +1337,8 @@ export default {
     DeviceMgmtApi.ChartInfo()
       .then((response) => {
         if (response.status == 200) {
+          // Device Except -> MOCOMS PJ
+          response.data = response.data.filter( (x) => x.pj_id != `${process.env.VUE_APP_MVCOMS_PROJECTID}`);
           this.cntRegion.bkk = 0;
           this.cntRegion.cr = 0;
           this.cntRegion.er = 0;

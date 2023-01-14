@@ -94,6 +94,7 @@
       <v-btn-group v-if="item.actionBtn && level != 'user'">
         <v-btn size="small" icon="mdi-pencil" @click="editAction(item)"></v-btn>
         <v-btn
+          v-if="item.id != mvcomsProjectId"
           size="small"
           icon="mdi-trash-can"
           @click="delBtnClick(item)"
@@ -605,6 +606,7 @@ export default {
   },
   data() {
     return {
+      mvcomsProjectId: "",
       alert: false,
 
       url: null,
@@ -644,6 +646,7 @@ export default {
     };
   },
   mounted() {
+    this.mvcomsProjectId = `${process.env.VUE_APP_MVCOMS_PROJECTID}`;
     this.level = localStorage.getItem("level");
     this.loadInfo();
   },
