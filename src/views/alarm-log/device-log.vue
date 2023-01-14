@@ -28,9 +28,8 @@
         </v-col>
         <v-col cols="6" class="pa-2">
           <v-text-field
-            v-model="name"
+            v-model="keyword"
             :counter="255"
-            :rules="nameRules"
             label="Search text"
             required
           ></v-text-field>
@@ -205,6 +204,7 @@ export default {
   // },
   data() {
     return {
+      keyword: "",
       isDisable: true,
       loading: false,
       date: [new Date(new Date().setHours(0, 0, 0, 0)), new Date()],
@@ -246,10 +246,10 @@ export default {
       items: [],
       selSearch: [
         { txt: "All", val: "all" },
-        { txt: "DeviceType", val: "device_type" },
-        { txt: "NoneMobile", val: "none_mobile" },
-        { txt: "DeviceName", val: "device_name" },
-        { txt: "Customer Site Code", val: "addr" },
+        { txt: "DeviceType", val: "a.device_type" },
+        { txt: "NoneMobile", val: "a.none_mobile" },
+        { txt: "DeviceName", val: "a.device_name" },
+        { txt: "Customer Site Code", val: "b.str_v" },
       ],
       selected: { txt: "All", val: "all" },
       typefilter: {
@@ -278,6 +278,8 @@ export default {
         rbox: true,
         thbox: true,
       };
+      this.selected = { txt: "All", val: "all" };
+      this.keyword = "";
       this.date = [new Date(new Date().setHours(0, 0, 0, 0)), new Date()];
       this.submitSearch();
     },
@@ -406,14 +408,16 @@ export default {
 
       let typeCode = "" + _abox + _wbox + _vabox + _rbox + _thbox;
 
-      AlarmLogApi.PhpDeviceAlarmLogListV2(
+      AlarmLogApi.PhpDeviceAlarmLogListV3(
         1,
         this.serverItemsLength,
         this.serverOptions.sortBy,
         this.serverOptions.sortType,
         s_date,
         e_date,
-        typeCode
+        typeCode,
+        this.selected.val,
+        this.keyword
       )
         .then((response) => {
           let _csv_headers = {
@@ -464,7 +468,7 @@ export default {
       let typeCode = "" + _abox + _wbox + _vabox + _rbox + _thbox;
 
       // Chart
-      AlarmLogApi.PhpStackedBarChartInfo(s_date, e_date, typeCode)
+      AlarmLogApi.PhpStackedBarChartInfoV3(s_date, e_date, typeCode, this.selected.val,this.keyword)
         .then((response) => {
           this.drawBarChart(response.data);
         })
@@ -477,14 +481,16 @@ export default {
       //console.log(this.serverOptions.page);
 
       //console.log(typeCode);
-      AlarmLogApi.PhpDeviceAlarmLogListV2(
+      AlarmLogApi.PhpDeviceAlarmLogListV3(
         this.serverOptions.page,
         this.serverOptions.rowsPerPage,
         this.serverOptions.sortBy,
         this.serverOptions.sortType,
         s_date,
         e_date,
-        typeCode
+        typeCode,
+        this.selected.val,
+        this.keyword
       )
         .then((response) => {
           this.serverItemsLength = response.cnt_all_rows;

@@ -28,9 +28,8 @@
         </v-col>
         <v-col cols="6" class="pa-2">
           <v-text-field
-            v-model="name"
+            v-model="keyword"
             :counter="255"
-            :rules="nameRules"
             label="Search text"
             required
           ></v-text-field>
@@ -194,6 +193,7 @@ export default {
   // },
   data() {
     return {
+      keyword: "",
       isDisable: true,
       loading: false,
       date: [new Date(new Date().setHours(0, 0, 0, 0)), new Date()],
@@ -222,7 +222,7 @@ export default {
         },
       ],
       headers: [
-        { text: "Event Id", value: "id", sortable: true },
+        { text: "Event Id", value: "event_id", sortable: true },
         { text: "Device Type", value: "device_type", sortable: true },
         { text: "None Mobile", value: "none_mobile", sortable: true },
         { text: "Device Name", value: "device_name", sortable: true },
@@ -235,10 +235,10 @@ export default {
       items: [],
       selSearch: [
         { txt: "All", val: "all" },
-        { txt: "DeviceType", val: "device_type" },
-        { txt: "NoneMobile", val: "none_mobile" },
-        { txt: "DeviceName", val: "device_name" },
-        { txt: "Customer Site Code", val: "addr" },
+        { txt: "DeviceType", val: "a.device_type" },
+        { txt: "NoneMobile", val: "a.none_mobile" },
+        { txt: "DeviceName", val: "a.device_name" },
+        { txt: "Customer Site Code", val: "b.str_v" },
       ],
       selected: { txt: "All", val: "all" },
       typefilter: {
@@ -267,6 +267,8 @@ export default {
         rbox: true,
         thbox: true,
       };
+      this.selected = { txt: "All", val: "all" };
+      this.keyword = "";
       this.date = [new Date(new Date().setHours(0, 0, 0, 0)), new Date()];
       this.submitSearch();
     },
@@ -340,7 +342,7 @@ export default {
         _line += ele.alarm_status + ",";
         _line += ele.device_name.replace(/,/g, "") + ",";
         _line += ele.device_type + ",";
-        _line += ele.id + ",";
+        _line += ele.event_id + ",";
         _line += ele.imei + ",";
         _line += ele.none_mobile + ",";
         _line += ele.project + ",";
@@ -395,14 +397,16 @@ export default {
 
       let typeCode = "" + _abox + _wbox + _vabox + _rbox + _thbox;
 
-      AlarmLogApi.PhpDeviceAlarmLogListV2(
+      AlarmLogApi.PhpFmAlarmLogList(
         1,
         this.serverItemsLength,
         this.serverOptions.sortBy,
         this.serverOptions.sortType,
         s_date,
         e_date,
-        typeCode
+        typeCode,
+        this.selected.val,
+        this.keyword
       )
         .then((response) => {
           let _csv_headers = {
@@ -411,7 +415,7 @@ export default {
             alarm_status: "Alarm Status",
             device_name: "Device Name",
             device_type: "Device Type",
-            id: "Event Id",
+            event_id: "Event Id",
             imei: "IMEI",
             none_mobile: "None-Mobile",
             project: "Project",
@@ -453,10 +457,8 @@ export default {
       let typeCode = "" + _abox + _wbox + _vabox + _rbox + _thbox;
 
       // Chart
-      AlarmLogApi.PhpStackedBarChartFmInfo(s_date, e_date, typeCode)
+      AlarmLogApi.PhpStackedBarChartFmInfo(s_date, e_date, typeCode, this.selected.val,this.keyword)
         .then((response) => {
-          console.log("Here!");
-          console.log(response);
           this.drawBarChart(response.data);
         })
         .catch((err) => {
@@ -475,7 +477,9 @@ export default {
         this.serverOptions.sortType,
         s_date,
         e_date,
-        typeCode
+        typeCode,
+        this.selected.val,
+        this.keyword
       )
         .then((response) => {
           this.serverItemsLength = response.cnt_all_rows;
