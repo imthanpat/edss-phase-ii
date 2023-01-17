@@ -753,11 +753,9 @@ export default {
         new: true,
         maintenance: true,
       };
-
-      if(!this.overlay){
-        if(oldvalue == null){ this.createChart(); }
-        this.loadInfo(newvalue);
-      }
+      console.log("q");
+      if(oldvalue == null){ this.createChart(); }
+      this.loadInfo(newvalue);
     },
     $route(to, from) {
       this.typefilter = {
@@ -768,9 +766,9 @@ export default {
         maintenance: true,
       };
       //this.createChart();
-      if(!this.overlay){
-        this.loadInfo(this.projectId);
-      }
+
+      this.loadInfo(this.projectId);
+      
     },
     items(newVal, oldVal) {
       this.chartStatus = {
@@ -1859,6 +1857,7 @@ export default {
               this.items = [];
               this.serverItemsLength = 0;
               this.serveSideloading = false;
+              this.overlay = false;
             });
         })
         .catch((xxx) => {
@@ -1899,10 +1898,8 @@ export default {
   mounted() {
     this.level = localStorage.getItem("level");
 
-    //if(!this.overlay){
-      this.createChart();
-      this.loadInfo(this.projectId);
-    //}
+    this.createChart();
+    this.loadInfo(this.projectId);
   },
 };
 </script>
