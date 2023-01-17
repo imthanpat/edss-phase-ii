@@ -1899,10 +1899,10 @@ export default {
   mounted() {
     this.level = localStorage.getItem("level");
 
-    if(!this.overlay){
+    //if(!this.overlay){
       this.createChart();
       this.loadInfo(this.projectId);
-    }
+    //}
   },
 };
 </script>
