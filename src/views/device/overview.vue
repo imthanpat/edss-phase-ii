@@ -95,6 +95,22 @@
       </v-card-text>
     </v-card>
   </v-container>
+  <div class="text-center">
+    <v-overlay
+      :model-value="overlay"
+      class="align-center justify-center"
+    >
+      <div class="wrapper">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <span>Loading</span>
+    </div>
+    </v-overlay>
+  </div>
 </template>
 <script>
 //import {Chart} from "chart.js";
@@ -111,6 +127,7 @@ var regionTxt = null;
 export default {
   data() {
     return {
+      overlay: false,
       txtRegionShow: "",
       loading: false,
       cntSubStaus: {
@@ -1324,15 +1341,17 @@ export default {
     },
   },
   mounted() {
-    this.$swal.fire({
-      title: "Loading...",
-      html: "Please wait...",
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      didOpen: () => {
-        this.$swal.showLoading();
-      },
-    });
+    // this.$swal.fire({
+    //   title: "Loading...",
+    //   html: "Please wait...",
+    //   allowEscapeKey: false,
+    //   allowOutsideClick: false,
+    //   didOpen: () => {
+    //     this.$swal.showLoading();
+    //   },
+    // });
+
+    this.overlay = true;
 
     DeviceMgmtApi.ChartInfo()
       .then((response) => {
@@ -1584,7 +1603,9 @@ export default {
 
           this.loading = true;
 
-          this.$swal.close();
+          //this.$swal.close();
+
+          this.overlay = false;
         }
       })
       .catch((err) => {
@@ -4325,4 +4346,96 @@ export default {
   position: relative;
   /*width: 500px;*/
 }
+
+/* Here */
+
+.wrapper{
+    width:200px;
+    height:60px;
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
+.circle{
+    width:20px;
+    height:20px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    left:15%;
+    transform-origin: 50%;
+    animation: circle .5s alternate infinite ease;
+}
+
+@keyframes circle{
+    0%{
+        top:60px;
+        height:5px;
+        border-radius: 50px 50px 25px 25px;
+        transform: scaleX(1.7);
+    }
+    40%{
+        height:20px;
+        border-radius: 50%;
+        transform: scaleX(1);
+    }
+    100%{
+        top:0%;
+    }
+}
+.circle:nth-child(2){
+    left:45%;
+    animation-delay: .2s;
+}
+.circle:nth-child(3){
+    left:auto;
+    right:15%;
+    animation-delay: .3s;
+}
+.shadow{
+    width:20px;
+    height:4px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    top:62px;
+    transform-origin: 50%;
+    z-index: -1;
+    left:15%;
+    filter: blur(1px);
+    animation: shadow .5s alternate infinite ease;
+}
+
+@keyframes shadow{
+    0%{
+        transform: scaleX(1.5);
+    }
+    40%{
+        transform: scaleX(1);
+        opacity: .7;
+    }
+    100%{
+        transform: scaleX(.2);
+        opacity: .4;
+    }
+}
+.shadow:nth-child(4){
+    left: 45%;
+    animation-delay: .2s
+}
+.shadow:nth-child(5){
+    left:auto;
+    right:15%;
+    animation-delay: .3s;
+}
+.wrapper span{
+    position: absolute;
+    top:75px;
+    font-size: 24px;
+    letter-spacing: 8px;
+    color: #fff;
+    left:15%;
+}
+
 </style>
