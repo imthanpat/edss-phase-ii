@@ -664,7 +664,7 @@
           </v-window-item>
         </v-window>
         <v-row class="mt-0 pl-12 pr-12 mb-12">
-          <v-col cols="12" sm="12" class="text-right">overlay
+          <v-col cols="12" sm="12" class="text-right">
             <v-btn
               color="success"
               :disabled="disableEditSave"
@@ -755,7 +755,9 @@ export default {
       };
       console.log("q");
       if(oldvalue == null){ this.createChart(); }
-      this.loadInfo(newvalue);
+
+      this.loadInfo(this.projectId);
+      
     },
     $route(to, from) {
       this.typefilter = {
@@ -766,8 +768,9 @@ export default {
         maintenance: true,
       };
       //this.createChart();
-
+      console.log("qqq");
       this.loadInfo(this.projectId);
+      
       
     },
     items(newVal, oldVal) {
@@ -1097,11 +1100,11 @@ export default {
         ],
       };
 
-      let _ctxx = document.getElementById("statusChart");
-      let chartStatusxx = new Chart(_ctxx);
-      if (chartStatusxx != undefined) {
-        chartStatusxx.destroy();
-      }
+      // let _ctxx = document.getElementById("statusChart");
+      // let chartStatusxx = new Chart(_ctxx);
+      // if (chartStatusxx != undefined) {
+      //   chartStatusxx.destroy();
+      // }
 
       _chartStatus = new Chart(document.getElementById("statusChart"), {
         type: "doughnut",
@@ -1112,6 +1115,7 @@ export default {
           },
           plugins: {
             legend: { display: false },
+            outlabels: { display: false },
           },
           aspectRatio: 1.5,
         },
