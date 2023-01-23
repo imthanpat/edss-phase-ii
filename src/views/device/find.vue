@@ -437,6 +437,7 @@ export default {
         .then((response) => {
           if (response.status != 200) {
             this.nodata = true;
+            this.overlay = false;
           } else {
             response.data.forEach((ele) => {
 
