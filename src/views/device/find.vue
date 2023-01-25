@@ -433,10 +433,12 @@ export default {
     },
     findDevice() {
       this.overlay = true;
+      this.nodata = false;
       DeviceMgmtApi.FindDevice(this.searchTxt.toLowerCase())
         .then((response) => {
           if (response.status != 200) {
             this.nodata = true;
+            this.items = [];
             this.overlay = false;
           } else {
             response.data.forEach((ele) => {
