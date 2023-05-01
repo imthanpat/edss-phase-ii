@@ -81,7 +81,7 @@
         <v-col cols="2">&nbsp;</v-col>
         <v-col cols="6" class="pa-2">
           <v-btn @click="submitSearch" color="success" :disabled="false">
-            <span style="color:white;">Submit</span>
+            <span style="color: white">Submit</span>
           </v-btn>
           <v-btn class="ml-4" @click="clearSearch"> Clear </v-btn>
         </v-col>
@@ -141,18 +141,18 @@
     </template>
     <template #item-action="item">
       <v-btn-group rounded="x2">
-      <v-btn size="small" icon="mdi-pencil" @click="editInfo(item)"></v-btn>
+        <v-btn size="small" icon="mdi-pencil" @click="editInfo(item)"></v-btn>
         <v-btn
           size="small"
           icon="mdi-trash-can"
           @click="delBtnClick(item)"
         ></v-btn>
-      <v-btn
-        class="sm-btn"
-        variant="text"
-        icon="mdi-arrow-right-bold-circle-outline"
-        @click="moveBtnClick(item)"
-      ></v-btn>
+        <v-btn
+          class="sm-btn"
+          variant="text"
+          icon="mdi-arrow-right-bold-circle-outline"
+          @click="moveBtnClick(item)"
+        ></v-btn>
       </v-btn-group>
     </template>
   </EasyDataTable>
@@ -482,7 +482,7 @@
               :disabled="disableEditSave"
               @click="editSave()"
             >
-              <span style="color:white;">Submit</span>
+              <span style="color: white">Submit</span>
             </v-btn>
             <v-btn class="ml-4" @click="editDialogState = false"> Close </v-btn>
           </v-col>
@@ -877,6 +877,7 @@ export default {
       let _res = {};
       _res.date_first_install = new Date().toLocaleString();
       _res.reuse_count = "0";
+      _res.deploy = 1;
 
       ReuseApi.GetListScope(this.sel_device_from).then((res1) => {
         ReuseApi.SetServerScope(this.sel_device_from, _res).then((res2) => {});
@@ -1030,7 +1031,6 @@ export default {
         .then((response) => {
           console.log(response.data);
           response.data.forEach((ele, index) => {
-
             let _currentLastUpdate = new Date(parseInt(ele.last_update));
             ele.storeLastUpdate = _currentLastUpdate;
 

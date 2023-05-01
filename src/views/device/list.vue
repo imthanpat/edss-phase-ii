@@ -1534,6 +1534,7 @@ export default {
             //_res.date_first_install = "";
             _res.reuse_count = "0";
             _res.date_in_stock = new Date().toLocaleString();
+            _res.deploy = 0;
 
             ReuseApi.GetListScope(this.sel_device_from).then((res1) => {
               console.log(res1);

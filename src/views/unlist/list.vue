@@ -790,7 +790,7 @@ export default {
     },
     submitMoveBtnClick() {
       let _res = {};
-      _res.deploy = 0;
+      _res.deploy = 1;
       ReuseApi.SetServerScope(this.sel_device_from, _res).then((res2) => {});
 
       let payload = this.sel_project_dest + "/device/" + this.sel_device_from;

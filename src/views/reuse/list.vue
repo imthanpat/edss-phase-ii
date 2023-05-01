@@ -803,6 +803,7 @@ export default {
       let _res = {};
       _res.date_first_install = new Date().toLocaleString();
       _res.reuse_count = "0";
+      _res.deploy = 1;
 
       ReuseApi.GetListScope(this.sel_device_from).then((res1) => {
         ReuseApi.SetServerScope(this.sel_device_from, _res).then((res2) => {});
@@ -921,6 +922,17 @@ export default {
         });
     },
     submitMoveBtnClick() {
+
+      // Write Info
+      let _res = {};
+      _res.date_first_install = new Date().toLocaleString();
+      _res.reuse_count = "0";
+      _res.deploy = 1;
+
+      ReuseApi.GetListScope(this.sel_device_from).then((res1) => {
+        ReuseApi.SetServerScope(this.sel_device_from, _res).then((res2) => {});
+      });
+
       let payload = this.sel_project_dest + "/device/" + this.sel_device_from;
       ProjectApi.MoveDeviceToNewProject(payload)
         .then((response) => {
