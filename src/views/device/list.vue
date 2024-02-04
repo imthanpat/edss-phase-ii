@@ -753,24 +753,10 @@ export default {
         new: true,
         maintenance: true,
       };
-      console.log("q");
+
       if(oldvalue == null){ this.createChart(); }
 
       this.loadInfo(this.projectId);
-      
-    },
-    $route(to, from) {
-      this.typefilter = {
-        online: true,
-        offline: true,
-        dead: true,
-        new: true,
-        maintenance: true,
-      };
-      //this.createChart();
-      console.log("qqq");
-      this.loadInfo(this.projectId);
-      
       
     },
     items(newVal, oldVal) {
@@ -1902,10 +1888,15 @@ export default {
   },
   mounted() {
     this.level = localStorage.getItem("level");
-
     this.createChart();
     this.loadInfo(this.projectId);
   },
+  // updated() {
+  //  var query = this.$route.query;
+  //  if(query != null){
+  //   this.projectId = query.q
+  //  }
+  // }
 };
 </script>
 <style scoped>

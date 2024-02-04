@@ -1017,6 +1017,22 @@ export default {
     $route(to, from) {
       this.loadInfo();
     },
+    editModel: {
+      handler(newVal, oldVal) {
+        //this.disableEditSave = JSON.parse(JSON.stringify({...newVal})).toString() === JSON.parse(this.tmpEditModel).toString() ? false : true;
+
+        if (newVal.info.maintenance) {
+          this.editModel.conf.action = false;
+        }
+        if (newVal.info.action) {
+          this.editModel.conf.maintenance = false;
+        }
+
+        this.disableEditSave =
+          JSON.stringify({ ...newVal }) === this.tmpEditModel;
+      },
+      deep: true,
+    },
   },
   mounted() {
     ProjectApi.PhpProjectList()

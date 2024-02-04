@@ -1,11 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="#484947">
-      <v-list-item
-        exact-active-class="font-weight-black"
-        two-line
-        :prepend-avatar="urlLogo"
-      >
+      <v-list-item exact-active-class="font-weight-black" two-line :prepend-avatar="urlLogo">
         <template v-slot:title>
           <h5 class="text-h6" style="color: white">Enterprise Data Service</h5>
         </template>
@@ -16,9 +12,7 @@
       </v-list-item>
       <v-spacer></v-spacer>
       <template v-if="level == 'superadmin'">
-        <v-icon color="white" style="font-size: 36px">
-          mdi-server-network
-        </v-icon>
+        <v-icon color="white" style="font-size: 36px">mdi-server-network</v-icon>
         <v-list-item exact-active-class="font-weight-black" two-line>
           <template v-slot:title>
             <v-badge
@@ -33,7 +27,7 @@
             <subtitle style="color: white">FM Status</subtitle>
           </template>
         </v-list-item>
-        <v-icon color="white" style="font-size: 36px"> mdi-chip </v-icon>
+        <v-icon color="white" style="font-size: 36px">mdi-chip</v-icon>
         <v-list-item exact-active-class="font-weight-black" two-line>
           <template v-slot:title>
             <header style="color: white">{{ status.cpu }} %</header>
@@ -42,23 +36,19 @@
             <subtitle style="color: white">CPU AVG</subtitle>
           </template>
         </v-list-item>
-        <v-icon color="white" style="font-size: 36px"> mdi-memory </v-icon>
+        <v-icon color="white" style="font-size: 36px">mdi-memory</v-icon>
         <v-list-item exact-active-class="font-weight-black" two-line>
           <template v-slot:title>
-            <header style="color: white">
-              {{ status.ram.used }} / {{ status.ram.total }}
-            </header>
+            <header style="color: white">{{ status.ram.used }} / {{ status.ram.total }}</header>
           </template>
           <template v-slot:subtitle>
             <subtitle style="color: white">RAM</subtitle>
           </template>
         </v-list-item>
-        <v-icon color="white" style="font-size: 36px"> mdi-nas </v-icon>
+        <v-icon color="white" style="font-size: 36px">mdi-nas</v-icon>
         <v-list-item exact-active-class="font-weight-black" two-line>
           <template v-slot:title>
-            <header style="color: white">
-              {{ status.disk_used }} / {{ status.disk_total }}
-            </header>
+            <header style="color: white">{{ status.disk_used }} / {{ status.disk_total }}</header>
           </template>
           <template v-slot:subtitle>
             <subtitle style="color: white">DISK</subtitle>
@@ -75,7 +65,7 @@
           <subtitle style="color:white">dev</subtitle>
         </template>
 
-      </v-list-item> -->
+      </v-list-item>-->
 
       <v-btn @click="logout" icon style="color: white">
         <v-icon>mdi-logout</v-icon>
@@ -96,9 +86,7 @@
           image="https://picsum.photos/1920/1080?random"
         >
           <template v-slot:image>
-            <v-img
-              gradient="to top right, rgba(65, 65, 65, 0.8), rgba(65, 65, 65, 0.8)"
-            ></v-img>
+            <v-img gradient="to top right, rgba(65, 65, 65, 0.8), rgba(65, 65, 65, 0.8)"></v-img>
           </template>
 
           <template v-slot:prepend>
@@ -123,9 +111,7 @@
       </v-container>
     </v-main>
     <v-footer app>
-      <h5 class="h2-text">
-        IOT Platform © Copyright 2022. All Rights Reserved.
-      </h5>
+      <h5 class="h2-text">IOT Platform © Copyright 2022. All Rights Reserved.</h5>
     </v-footer>
   </v-app>
 </template>
@@ -142,7 +128,7 @@ export default {
   components: {
     NavManu,
     AppBar,
-    NavManu
+    NavManu,
   },
   computed: {
     projectId() {
@@ -180,11 +166,24 @@ export default {
     };
   },
   watch: {
+    projectId(newvalue, oldvalue) {
+      //console.log("::New_Value_found");
+    },
     sel_project(value) {
+      //console.log("::Sel Project");
       localStorage.setItem("current_pj", value);
       let sel_pj_id = this.projects.filter((x) =>
         x.name.toString().toLowerCase().includes(value.toLowerCase())
       )[0].id.id;
+
+      var query = this.$route.query.q;
+      if (query != null) { 
+        let sel_name = this.projects.filter((x) =>
+          x.id.id.toString().toLowerCase().includes(query.toLowerCase())
+        )[0].name;
+        this.sel_project = sel_name;
+        delete this.$route.query.q
+      }
 
       // Set Vuex
       this.setProjectId(sel_pj_id);
@@ -336,10 +335,9 @@ export default {
   max-height: 200px !important;
 }
 
-#search-bar{
-  width: -moz-available!important;
-  width: -webkit-fill-available!important;
-  border-radius: 5px
+#search-bar {
+  width: -moz-available !important;
+  width: -webkit-fill-available !important;
+  border-radius: 5px;
 }
-
 </style>
